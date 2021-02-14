@@ -68,9 +68,9 @@ public class StreamingDemo {
   public String serialize(TwitterEntry twitterEntry) throws IOException {
 
     ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-    JsonGenerator jsonGenerator = factory.createGenerator(byteArrayOutputStream, JsonEncoding.UTF8);
 
-    try {
+    try (JsonGenerator jsonGenerator = factory
+        .createGenerator(byteArrayOutputStream, JsonEncoding.UTF8)) {
       jsonGenerator.useDefaultPrettyPrinter();
 
       jsonGenerator.writeStartObject();
@@ -82,8 +82,6 @@ public class StreamingDemo {
       jsonGenerator.writeEndObject();
     } catch (IOException e) {
       System.out.println("序列化出现异常 :" + e.getMessage());
-    } finally {
-      jsonGenerator.close();
     }
 
     // 一定要在
